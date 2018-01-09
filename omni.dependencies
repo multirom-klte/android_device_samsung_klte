@@ -1,6 +1,8 @@
 [
   {
+    "remote": "multirom-klte",
     "repository": "android_device_samsung_klte-common",
-    "target_path": "device/samsung/klte-common"
+    "target_path": "device/samsung/klte-common",
+    "revision": "android-6.0"
   }
 ]
