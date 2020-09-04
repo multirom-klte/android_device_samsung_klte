@@ -1,5 +1,5 @@
 /*
-   Copyright (c) 2016, The Linux Foundation. All rights reserved.
+   Copyright (c) 2013, The Linux Foundation. All rights reserved.
 
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions are
@@ -28,76 +28,101 @@
  */
 
 #include <stdlib.h>
-#include <stdio.h>
 
 #include "vendor_init.h"
 #include "property_service.h"
-#include "log.h"
 #include "util.h"
 
-#include "init_msm8974.h"
-
-#define ISMATCH(a, b) (!strncmp((a), (b), PROP_VALUE_MAX))
-
-void init_target_properties()
+void vendor_load_properties()
 {
-    char platform[PROP_VALUE_MAX];
-    char bootloader[PROP_VALUE_MAX];
-    char device[PROP_VALUE_MAX];
-    char devicename[PROP_VALUE_MAX];
-    int rc;
+	char bootloader[PROP_VALUE_MAX];
 
-    rc = property_get("ro.board.platform", platform);
-    if (!rc || !ISMATCH(platform, ANDROID_TARGET))
-        return;
+	property_get("ro.bootloader", bootloader);
 
-    property_get("ro.bootloader", bootloader);
-
-    if (strstr(bootloader, "G900W8")) {
-        /* kltecan */
-        property_set("ro.build.fingerprint", "samsung/kltevl/kltecan:6.0.1/MMB29M/G900W8VLU1DPD3:user/release-keys");
-        property_set("ro.build.description", "kltevl-user 6.0.1 MMB29M G900W8VLU1DPD3 release-keys");
-        property_set("ro.product.model", "SM-G900W8");
-        property_set("ro.product.device", "kltecan");
-    } else if (strstr(bootloader, "G900T")) {
-        /* kltetmo */
-        property_set("ro.build.fingerprint", "samsung/kltetmo/kltetmo:6.0.1/MMB29M/G900TUVU1GPE1:user/release-keys");
-        property_set("ro.build.description", "kltetmo-user 6.0.1 MMB29M G900TUVU1GPE1 release-keys");
-        property_set("ro.product.model", "SM-G900T");
-        property_set("ro.product.device", "kltetmo");
-    } else if (strstr(bootloader, "G900M")) {
-        /* klteub */
-        property_set("ro.build.fingerprint", "samsung/klteub/klte:6.0.1/MMB29M/G900MUBU1CPC4:user/release-keys");
-        property_set("ro.build.description", "klteub-user 6.0.1 MMB29M G900MUBU1CPC4 release-keys");
-        property_set("ro.product.model", "SM-G900M");
-        property_set("ro.product.device", "klte");
-    } else if (strstr(bootloader, "G900A")) {
-        /* klteatt */
-        property_set("ro.build.fingerprint", "samsung/klteuc/klteatt:5.1.1/LMY47X/G900AUCU4CPA1:user/release-keys");
-        property_set("ro.build.description", "klteuc-user 5.1.1 LMY47X G900AUCU4CPA1 release-keys");
-        property_set("ro.product.model", "SM-G900A");
-        property_set("ro.product.device", "klteatt");
-    } else if (strstr(bootloader, "G900S")) {
-        /* klteskt */
-        property_set("ro.build.fingerprint", "samsung/klteskt/klteskt:6.0.1/MMB29M/G900SKSU1CPB9:user/release-keys");
-        property_set("ro.build.description", "klteskt-user 6.0.1 MMB29M G900SKSU1CPB9 release-keys");
-        property_set("ro.product.model", "SM-G900S");
-        property_set("ro.product.device", "klteskt");
-    } else if (strstr(bootloader, "G900K")) {
-        /* kltektt */
-        property_set("ro.build.fingerprint", "samsung/kltektt/kltektt:6.0.1/MMB29M/G900KKTU1CPE1:user/release-keys");
-        property_set("ro.build.description", "kltektt-user 6.0.1 MMB29M G900KKTU1CPE1 release-keys");
-        property_set("ro.product.model", "SM-G900K");
-        property_set("ro.product.device", "kltektt");
-    } else {
-        /* kltexx */
-        property_set("ro.build.fingerprint", "samsung/kltexx/klte:6.0.1/MMB29M/G900FXXS1CPEF:user/release-keys");
-        property_set("ro.build.description", "kltexx-user 6.0.1 MMB29M G900FXXS1CPEF release-keys");
-        property_set("ro.product.model", "SM-G900F");
-        property_set("ro.product.device", "klte");
-    }
-
-    property_get("ro.product.device", device);
-    strlcpy(devicename, device, sizeof(devicename));
-    INFO("Found bootloader id %s setting build properties for %s device\n", bootloader, devicename);
+	if (strstr(bootloader, "G900A")) {
+		/* klteatt */
+		property_set("ro.product.model", "SM-G900A");
+		property_set("ro.product.name", "klteuc");
+	} else if (strstr(bootloader, "G900W8")) {
+		/* kltecan */
+		property_set("ro.product.name", "kltevl");
+		property_set("ro.product.model", "SM-G900W8");
+	} else if (strstr(bootloader, "G900P")) {
+		/* kltespr */
+		property_set("ro.product.model", "SM-G900P");
+		property_set("ro.product.name", "kltespr");
+	} else if (strstr(bootloader, "G900T")) {
+		/* kltetmo */
+		property_set("ro.product.model", "SM-G900T");
+		property_set("ro.product.name", "kltetmo");
+	} else if (strstr(bootloader, "G900R4")) {
+		/* klteusc */
+		property_set("ro.product.model", "SM-G900R4");
+		property_set("ro.product.name", "klteusc");
+	} else if (strstr(bootloader, "G900R6")) {
+		/* kltelra */
+		property_set("ro.product.model", "SM-G900R6");
+		property_set("ro.product.name", "kltelra");
+	} else if (strstr(bootloader, "G900R7")) {
+		/* klteacg */
+		property_set("ro.product.model", "SM-G900R7");
+		property_set("ro.product.name", "klteacg");
+	} else if (strstr(bootloader, "G900V")) {
+		/* kltevzw */
+		property_set("ro.product.model", "SM-G900V");
+		property_set("ro.product.name", "kltevzw");
+	} else if (strstr(bootloader, "G900M")) {
+		/* klteub */
+		property_set("ro.product.model", "SM-G900M");
+		property_set("ro.product.name", "klteub");
+	} else if (strstr(bootloader, "G900I")) {
+		/* kltedv */
+		property_set("ro.product.model", "SM-G900I");
+		property_set("ro.product.name", "kltedv");
+	} else if (strstr(bootloader, "G900K")) {
+		/* kltektt */
+		property_set("ro.product.model", "SM-G900K");
+		property_set("ro.product.name", "kltektt");
+	} else if (strstr(bootloader, "G900L")) {
+		/* kltelgt */
+		property_set("ro.product.model", "SM-G900L");
+		property_set("ro.product.name", "kltelgt");
+	} else if (strstr(bootloader, "G900S")) {
+		/* klteskt */
+		property_set("ro.product.model", "SM-G900S");
+		property_set("ro.product.name", "klteskt");
+	} else if (strstr(bootloader, "G9008V")) {
+		/* kltezm */
+		property_set("ro.product.model", "SM-G9008V");
+		property_set("ro.product.name", "kltezm");
+	} else if (strstr(bootloader, "G9006V")) {
+		/* kltezn */
+		property_set("ro.product.model", "SM-G9006V");
+		property_set("ro.product.name", "kltezn");
+	} else if (strstr(bootloader, "G9006W")) {
+		/* klteduoszn */
+		property_set("ro.product.model", "SM-G9006W");
+		property_set("ro.product.name", "klteduoszn");
+	} else if (strstr(bootloader, "G9008W")) {
+		/* klteduoszm */
+		property_set("ro.product.model", "SM-G9008W");
+		property_set("ro.product.name", "klteduoszm");
+	} else if (strstr(bootloader, "G9009W")) {
+		/* klteduosctc */
+		property_set("ro.product.model", "SM-G9009W");
+		property_set("ro.product.name", "klteduosctc");
+	} else if (strstr(bootloader, "SC04F")) {
+		/* kltedcm */
+		property_set("ro.product.model", "SC-04F");
+		property_set("ro.product.name", "kltedcm");
+	} else if (strstr(bootloader, "SCL23")) {
+		/* kltekdi */
+		property_set("ro.product.model", "SCL23");
+		property_set("ro.product.name", "kltekdi");
+	} else {
+		/* all other variants (including duos) become kltexx */
+		property_set("ro.product.model", "SM-G900F");
+		property_set("ro.product.name", "kltexx");
+	}
+	property_set("ro.product.device", "klte");
 }
